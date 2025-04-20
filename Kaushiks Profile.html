@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kaushik Bose: Global Infrastructure Journey</title>
+  <style>
+    :root {
+      --primary: #1a2a3a;
+      --accent: #3498db;
+      --light-accent: #e0f2fe;
+      --contrast: #e74c3c;
+      --gold: #f1c40f;
+      --dark: #121921;
+      --light: #f8f9fa;
+      --white: #ffffff;
+      --success: #2ecc71;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    
+    body {
+      color: var(--primary);
+      background-color: var(--light);
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      position: relative;
+      background-color: var(--dark);
+      color: white;
+      overflow: hidden;
+    }
+    
+    .hero-map {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.15;
+      animation: mapZoom 20s infinite alternate;
+    }
+    
+    @keyframes mapZoom {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.1);
+      }
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .hero-name {
+      font-size: 72px;
+      font-weight: 300;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1s forwards 0.5s;
+    }
+    
+    .hero-title {
+      font-size: 24px;
+      font-weight: 300;
+      opacity: 0.9;
+      margin-bottom: 40px;
+      max-width: 700px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1s forwards 0.7s;
+    }
+    
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .hero-stats {
+      display: flex;
+      gap: 30px;
+      margin-top: 30px;
+      opacity: 0;
+      animation: fadeIn 1s forwards 1s;
+    }
+    
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    
+    .hero-stat {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 48px;
+      font-weight: 300;
+      color: var(--accent);
+    }
+    
+    .stat-label {
+      font-size: 16px;
+      opacity: 0.8;
+    }
+    
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeIn 1s forwards 1.5s, bounce 2s infinite 1.5s;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) translateX(-50%);
+      }
+      40% {
+        transform: translateY(-20px) translateX(-50%);
+      }
+      60% {
+        transform: translateY(-10px) translateX(-50%);
+      }
+    }
+    
+    /* World Map Section */
+    .world-map-section {
+      padding: 80px 0;
+      background-color: white;
+      position: relative;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+      position: relative;
+    }
+    
+    .section-title h2 {
+      font-size: 36px;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+    
+    .section-title p {
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+      opacity: 0.7;
+    }
+    
+    .world-map-container {
+      position: relative;
+      height: 500px;
+      margin-bottom: 40px;
+    }
+    
+    .google-map-embed {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .map-markers-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    
+    .map-pin {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      z-index: 2;
+      pointer-events: auto;
+    }
+    
+    .map-pin .pin-circle {
+      width: 20px;
+      height: 20px;
+      background-color: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 0 5px rgba(52, 152, 219, 0.3);
+      transition: all 0.3s;
+      position: relative;
+    }
+    
+    .map-pin .pin-circle::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--accent);
+      opacity: 0.3;
+      top: 0;
+      left: 0;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.3;
+      }
+      70% {
+        transform: scale(2);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0;
+      }
+    }
+    
+    .map-pin .pin-content {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: white;
+      border-radius: 6px;
+      padding: 15px;
+      width: 250px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      pointer-events: none;
+      z-index: 3;
+    }
+    
+    .map-pin:hover .pin-content {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(-10px);
+    }
+    
+    .pin-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .pin-flag {
+      width: 20px;
+      height: 15px;
+      margin-right: 8px;
+      border-radius: 2px;
+      object-fit: cover;
+    }
+    
+    .pin-year {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    
+    .pin-description {
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    
+    /* Pin Positions for Google Map */
+    /* Singapore */
+    .pin-singapore {
+      top: 63%;
+      left: 74%;
+    }
+    
+    /* Australia */
+    .pin-australia {
+      top: 75%;
+      left: 82%;
+    }
+    
+    /* New Zealand */
+    .pin-newzealand {
+      top: 80%;
+      left: 88%;
+    }
+    
+    /* India */
+    .pin-india {
+      top: 55%;
+      left: 68%;
+    }
+    
+    /* UK */
+    .pin-uk {
+      top: 42%;
+      left: 47%;
+    }
+    
+    /* Switzerland */
+    .pin-switzerland {
+      top: 45%;
+      left: 49%;
+    }
+    
+    /* Career Journey */
+    .journey-section {
+      padding: 80px 0;
+      background-color: var(--light);
+    }
+    
+    .journey-timeline {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 0;
+    }
+    
+    .journey-timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 4px;
+      background-color: var(--accent);
+      transform: translateX(-50%);
+    }
+    
+    .journey-item {
+      position: relative;
+      display: flex;
+      margin-bottom: 80px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.5s;
+    }
+    
+    .journey-item.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .journey-item:nth-child(odd) {
+      flex-direction: row-reverse;
+    }
+    
+    .journey-content {
+      width: 45%;
+      padding: 30px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+    
+    .journey-content::after {
+      content: '';
+      position: absolute;
+      top: 30px;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      transform: rotate(45deg);
+    }
+    
+    .journey-item:nth-child(odd) .journey-content::after {
+      left: -10px;
+    }
+    
+    .journey-item:nth-child(even) .journey-content::after {
+      right: -10px;
+    }
+    
+    .journey-marker {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      border: 4px solid var(--accent);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+    
+    .journey-date {
+      position: absolute;
+      top: 30px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    
+    .journey-item:nth-child(odd) .journey-date {
+      left: 55%;
+    }
+    
+    .journey-item:nth-child(even) .journey-date {
+      right: 55%;
+      text-align: right;
+    }
+    
+    .journey-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--primary);
+    }
+    
+    .journey-location {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .journey-flag {
+      width: 20px;
+      height: 15px;
+      margin-right: 8px;
+      border-radius: 2px;
+    }
+    
+    .journey-description {
+      margin-bottom: 15px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    .journey-highlight {
+      background-color: var(--light-accent);
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    
+    .highlight-title {
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+    
+    /* Key Achievements Section */
+    .achievements-section {
+      padding: 80px 0;
+      background-color: white;
+    }
+    
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .metric-card {
+      background-color: var(--light);
+      border-radius: 10px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    
+    .metric-card.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .metric-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .metric-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+    
+    .metric-value {
+      font-size: 36px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .metric-label {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.4;
+    }
+    
+    /* Organizations Section */
+    .organizations-section {
+      padding: 80px 0;
+      background-color: var(--light);
+    }
+    
+    .organizations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .organization-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .organization-card.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .organization-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .organization-header {
+      padding: 20px;
+      background-color: var(--primary);
+      color: white;
+      font-weight: 600;
+      text-align: center;
+      position: relative;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .organization-content {
+      padding: 20px;
+    }
+    
+    .organization-role {
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+    
+    .organization-year {
+      color: var(--accent);
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    
+    .organization-highlight {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    /* Contact */
+    .contact-section {
+      padding: 80px 0;
+      background-color: var(--dark);
+      color: white;
+      text-align: center;
+    }
+    
+    .contact-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .contact-heading {
+      font-size: 36px;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+    
+    .contact-text {
+      margin-bottom: 30px;
+      font-size: 18px;
+      opacity: 0.9;
+    }
+    
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .contact-link {
+      text-decoration: none;
+      color: white;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+    }
+    
+    .contact-link:hover {
+      color: var(--accent);
+    }
+    
+    .contact-link svg {
+      margin-right: 8px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 991px) {
+      .hero-name {
+        font-size: 48px;
+      }
+      
+      .stat-value {
+        font-size: 36px;
+      }
+      
+      .journey-timeline::before {
+        left: 30px;
+      }
+      
+      .journey-item {
+        flex-direction: row !important;
+      }
+      
+      .journey-content {
+        width: calc(100% - 60px);
+        margin-left: 60px;
+      }
+      
+      .journey-marker {
+        left: 30px;
+      }
+      
+      .journey-date {
+        position: relative;
+        top: auto;
+        left: auto !important;
+        right: auto !important;
+        text-align: left !important;
+        margin-bottom: 10px;
+      }
+      
+      .journey-item:nth-child(odd) .journey-content::after,
+      .journey-item:nth-child(even) .journey-content::after {
+        left: -10px;
+        right: auto;
+      }
+    }
+    
+    /* Sector Badges */
+    .sector-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 40px;
+      max-width: 800px;
+      opacity: 0;
+      animation: fadeIn 1s forwards 1.2s;
+    }
+    
+    .sector-badge {
+      background-color: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(5px);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 14px;
+      color: white;
+      transition: all 0.3s;
+    }
+    
+    .sector-badge:hover {
+      background-color: var(--accent);
+      transform: translateY(-5px);
+    }
+    
+      .hero-name {
+        font-size: 36px;
+      }
+      
+      .hero-title {
+        font-size: 18px;
+      }
+      .hero-stats {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .sector-badges {
+        gap: 10px;
+      }
+      
+      .sector-badge {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+      
+      .section-title h2 {
+        font-size: 28px;
+      }
+      
+      .metrics-grid,
+      .organizations-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .world-map-container {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <img src="https://cdnjs.cloudflare.com/ajax/libs/d3-world-maps/1.0.0/world-map.svg" alt="World Map Background" class="hero-map">
+    <div class="hero-content">
+      <h1 class="hero-name">KAUSHIK BOSE</h1>
+      <p class="hero-title">Complex Project Management & Global Infrastructure Expert</p>
+      
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="stat-value">18+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-value">14</div>
+          <div class="stat-label">Countries</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-value">3</div>
+          <div class="stat-label">Governments</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-value">12</div>
+          <div class="stat-label">Fortune 100 Clients</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-value">30MW</div>
+          <div class="stat-label">Total Data Center Capacity</div>
+        </div>
+      </div>
+      
+      <div class="sector-badges">
+        <div class="sector-badge">Airports</div>
+        <div class="sector-badge">Hotels</div>
+        <div class="sector-badge">Defense & Aerospace</div>
+        <div class="sector-badge">Data Centers</div>
+        <div class="sector-badge">Global Observatories</div>
+        <div class="sector-badge">Blue Chip Labs</div>
+        <div class="sector-badge">Trading Floors</div>
+        <div class="sector-badge">Corporate Spaces</div>
+        <div class="sector-badge">Remote Developments</div>
+      </div>
+    </div>
+    
+    <div class="scroll-indicator">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- World Map Section -->
+  <section class="world-map-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Global Impact & Reach</h2>
+        <p>Explore my project locations across continents</p>
+      </div>
+      
+      <div class="world-map-container">
+        <!-- Embedded Custom Google Map -->
+        <div class="google-map-embed">
+          <iframe 
+            src="https://www.google.com/maps/d/embed?mid=1SyNwuiwchVp4Y1srxMvB3vSHnGFyVp4&ehbc=2E312F" 
+            width="100%" 
+            height="450" 
+            style="border:0; border-radius: 8px;" 
+            allowfullscreen="" 
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+        
+        <!-- Map Location Markers - These will overlay on top of the Google Map -->
+        <div class="map-markers-overlay">
+          <!-- Singapore Pin -->
+          <div class="map-pin pin-singapore">
+            <div class="pin-circle"></div>
+            <div class="pin-content">
+              <div class="pin-title">
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/sg.svg" alt="Singapore Flag" class="pin-flag">
+                Singapore
+              </div>
+              <div class="pin-year">2015-2017</div>
+              <div class="pin-description">Google Office Fit-out, Multiple data centers for Cisco, Digital Realty, and Equinix with innovative cooling solutions achieving PUE of 1.3</div>
+            </div>
+          </div>
+          
+          <!-- Australia Pin -->
+          <div class="map-pin pin-australia">
+            <div class="pin-circle"></div>
+            <div class="pin-content">
+              <div class="pin-title">
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/au.svg" alt="Australia Flag" class="pin-flag">
+                Australia
+              </div>
+              <div class="pin-year">2022-Present</div>
+              <div class="pin-description">Leading 5MW data center development with 1.2 PUE for Square Kilometre Array telescope. Managing 612km fiber network with 18 edge computing facilities.</div>
+            </div>
+          </div>
+          
+          <!-- New Zealand Pin -->
+          <div class="map-pin pin-newzealand">
+            <div class="pin-circle"></div>
+            <div class="pin-content">
+              <div class="pin-title">
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/nz.svg" alt="New Zealand Flag" class="pin-flag">
+                New Zealand
+              </div>
+              <div class="pin-year">2020-2022</div>
+              <div class="pin-description">Led development of confidential jet propulsion laboratory with specialized cooling and power systems during COVID-19 pandemic.</div>
+            </div>
+          </div>
+          
+          <!-- India Pin -->
+          <div class="map-pin pin-india">
+            <div class="pin-circle"></div>
+            <div class="pin-content">
+              <div class="pin-title">
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" alt="India Flag" class="pin-flag">
+                India
+              </div>
+              <div class="pin-year">2019-2020</div>
+              <div class="pin-description">Head of Southeast Asia Project Transformation via SoftBank Japan. Established metrics-based performance tracking across multiple APAC countries.</div>
+            </div>
+          </div>
+          
+          <!-- UK Pin -->
+          <div class="map-pin pin-uk">
+            <div class="pin-circle"></div>
+            <div class="pin-content">
+              <div class="pin-title">
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/gb.svg" alt="UK Flag" class="pin-flag">
+                United Kingdom
+              </div>
+              <div class="pin-year">2022-Present</div>
+              <div class="pin-description">Collaborating with SKA Organization in UK for development of critical computing infrastructure. Managing €149 million procurements.</div>
+            </div>
+          </div>
+          
+          <!-- Switzerland Pin -->
+          <div class="map-pin pin-switzerland">
+            <div class="pin-circle"></div>
+            <div class="pin-content">
+              <div class="pin-title">
+                <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/ch.svg" alt="Switzerland Flag" class="pin-flag">
+                Switzerland
+              </div>
+              <div class="pin-year">2017</div>
+              <div class="pin-description">Trading floor infrastructure for Bank of Julius Baer where milliseconds meant millions in the high-stakes financial environment.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Achievements Section -->
+  <section class="achievements-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Jaw-Dropping Numbers</h2>
+        <p>Quantifiable achievements that showcase the scale of my work</p>
+      </div>
+      
+      <div class="metrics-grid">
+        <!-- Metric 1 -->
+        <div class="metric-card" data-animation="fade-up">
+          <div class="metric-icon">€</div>
+          <div class="metric-value">€4.3M</div>
+          <div class="metric-label">Cost savings achieved through strategic vendor negotiations</div>
+        </div>
+        
+        <!-- Metric 2 -->
+        <div class="metric-card" data-animation="fade-up">
+          <div class="metric-icon">⚡</div>
+          <div class="metric-value">5MW</div>
+          <div class="metric-label">Data center currently being built in Australian outback for SKA telescope</div>
+        </div>
+        
+        <!-- Metric 3 -->
+        <div class="metric-card" data-animation="fade-up">
+          <div class="metric-icon">🌐</div>
+          <div class="metric-value">30MW</div>
+          <div class="metric-label">Total data center capacity designed and delivered throughout career</div>
+        </div>
+        
+        <!-- Metric 4 -->
+        <div class="metric-card" data-animation="fade-up">
+          <div class="metric-icon">📡</div>
+          <div class="metric-value">612km</div>
+          <div class="metric-label">Fiber network implementation for computing facility connectivity</div>
+        </div>
+        
+        <!-- Metric 5 -->
+        <div class="metric-card" data-animation="fade-up">
+          <div class="metric-icon">🌍</div>
+          <div class="metric-value">16</div>
+          <div class="metric-label">Member nations involved in inter-governmental procurement with €2.9B budget</div>
+        </div>
+        
+        <!-- Metric 6 -->
+        <div class="metric-card" data-animation="fade-up">
+          <div class="metric-icon">⚙️</div>
+          <div class="metric-value">1.2</div>
+          <div class="metric-label">PUE optimization achieved in challenging environmental conditions</div>
+        </div>
+        
+        <!-- Metric 7 -->
+        <div class="metric-card" data-animation="fade-up">
+          <div class="metric-icon">🏢</div>
+          <div class="metric-value">18</div>
+          <div class="metric-label">Edge computing facilities managed across a footprint the size of the Netherlands</div>
+        </div>
+        
+        <!-- Metric 8 -->
+        <div class="metric-card" data-animation="fade-up">
+          <div class="metric-icon">⏱️</div>
+          <div class="metric-value">&lt;1ms</div>
+          <div class="metric-label">Latency requirements for trading floor infrastructure where milliseconds meant millions</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Interactive Map Journey -->
+  <section class="journey-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>The Infrastructure Odyssey</h2>
+        <p>An extraordinary journey through complex technical environments</p>
+      </div>
+      
+      <div class="journey-timeline">
+        <!-- Google Singapore -->
+        <div class="journey-item" data-animation="fade-up">
+          <div class="journey-marker"></div>
+          <div class="journey-date">2015</div>
+          <div class="journey-content">
+            <h3 class="journey-title">The Beginning: Fortune 100 Projects</h3>
+            <div class="journey-location">
+              <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/sg.svg" alt="Singapore Flag" class="journey-flag">
+              Singapore
+            </div>
+            <p class="journey-description">Started my infrastructure journey supporting fit-out projects for several Fortune 100 clients, including Google's new offices in Singapore, experiencing firsthand the infrastructure-first approach that would change the world.</p>
+            <div class="journey-highlight">
+              <div class="highlight-title">Key Achievement</div>
+              Implementation of enterprise-grade infrastructure standards for multiple Fortune 100 clients that would later influence my approach to all future projects.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Trading Floor Infrastructure -->
+        <div class="journey-item" data-animation="fade-up">
+          <div class="journey-marker"></div>
+          <div class="journey-date">2017</div>
+          <div class="journey-content">
+            <h3 class="journey-title">The Trading Floor Sprint</h3>
+            <div class="journey-location">
+              <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/ch.svg" alt="Switzerland Flag" class="journey-flag">
+              Switzerland
+            </div>
+            <p class="journey-description">At Jump Trading and Bank of Julius Baer, where milliseconds meant millions, I learned that perfection in infrastructure isn't just a technical standard—it's a business imperative.</p>
+            <div class="journey-highlight">
+              <div class="highlight-title">Key Achievement</div>
+              Implemented ultra-low-latency infrastructure with sub-millisecond response times critical for high-frequency trading operations.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Intel Expansion -->
+        <div class="journey-item" data-animation="fade-up">
+          <div class="journey-marker"></div>
+          <div class="journey-date">2017-2019</div>
+          <div class="journey-content">
+            <h3 class="journey-title">The Intel Expansion Challenge</h3>
+            <div class="journey-location">
+              <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/sg.svg" alt="Singapore Flag" class="journey-flag">
+              Singapore
+            </div>
+            <p class="journey-description">Leading Intel's largest fabrication facility outside the US taught me that sometimes the most crucial infrastructure is invisible—clean rooms with 0.3-micron filtration that don't forgive mistakes.</p>
+            <div class="journey-highlight">
+              <div class="highlight-title">Key Achievement</div>
+              Created an ecosystem where atomic-level precision becomes possible, requiring 99.9999% uptime for semiconductor manufacturing processes.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Oyo Transformation -->
+        <div class="journey-item" data-animation="fade-up">
+          <div class="journey-marker"></div>
+          <div class="journey-date">2019-2020</div>
+          <div class="journey-content">
+            <h3 class="journey-title">APAC Expansion</h3>
+            <div class="journey-location">
+              <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" alt="India Flag" class="journey-flag">
+              India & APAC
+            </div>
+            <p class="journey-description">As Head of Southeast Asia Project Transformation at Oyo Groups via SoftBank Japan, I established standardized delivery models ensuring consistent quality across diverse markets.</p>
+            <div class="journey-highlight">
+              <div class="highlight-title">Key Achievement</div>
+              Created growth plans and participated in talent acquisition for project management teams across multiple countries in APAC.
+            </div>
+          </div>
+        </div>
+        
+        <!-- Jet Propulsion Lab -->
+        <div class="journey-item" data-animation="fade-up">
+          <div class="journey-marker"></div>
+          <div class="journey-date">2020-2022</div>
+          <div class="journey-content">
+            <h3 class="journey-title">The Secret Jet Propulsion Lab Expedition</h3>
+            <div class="journey-location">
+              <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/nz.svg" alt="New Zealand Flag" class="journey-flag">
+              New Zealand
+            </div>
+            <p class="journey-description">When COVID-19 locked down the world, I was tasked with establishing a confidential jet propulsion laboratory under Professor Rob Badcock. The challenge was doing the impossible when supply chains were collapsing.</p>
+            <div class="journey-highlight">
+              <div class="highlight-title">Key Achievement</div>
+              Created specialized cooling and power infrastructure for Marsden-class devices in complete secrecy, turning scientific theory into physical reality during a global pandemic.
+            </div>
+          </div>
+        </div>
+        
+        <!-- SKA Data Center -->
+        <div class="journey-item" data-animation="fade-up">
+          <div class="journey-marker"></div>
+          <div class="journey-date">2022-Present</div>
+          <div class="journey-content">
+            <h3 class="journey-title">The Desert Data Center Saga</h3>
+            <div class="journey-location">
+              <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/au.svg" alt="Australia Flag" class="journey-flag">
+              Australia & UK
+            </div>
+            <p class="journey-description">Currently directing what might be the world's most unique data center project—a 5MW facility with 1.2 PUE in the Australian outback supporting the Square Kilometre Array (SKA), the world's largest radio telescope.</p>
+            <div class="journey-highlight">
+              <div class="highlight-title">Key Challenge</div>
+              Radio silence requirements so strict that a microwave oven from 100km away could corrupt data, 612km of fibre through remote terrain, and coordinating 18 edge sites across a footprint the size of the Netherlands.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detailed Map Section -->
+  <section class="map-details-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Global Infrastructure Footprint</h2>
+        <p>Detailed view of major project locations and technical specifications</p>
+      </div>
+      
+      <div class="map-details-container">
+        <!-- Interactive Regional Maps -->
+        <div class="region-maps-tabs">
+          <div class="region-tabs">
+            <button class="region-tab active" data-region="apac">Asia-Pacific</button>
+            <button class="region-tab" data-region="europe">Europe</button>
+            <button class="region-tab" data-region="oceania">Oceania</button>
+          </div>
+          
+          <div class="region-map-container">
+            <!-- APAC Map -->
+            <div class="region-map active" id="apac-map">
+              <img src="/api/placeholder/800/500" alt="APAC Region Map" class="region-map-image">
+              
+              <div class="region-details">
+                <h3>Asia-Pacific Region Projects</h3>
+                <ul class="region-projects-list">
+                  <li><strong>Singapore:</strong> Google Office, Intel Fabrication Facility, Multiple Data Centers</li>
+                  <li><strong>India:</strong> Oyo Regional Headquarters, Infrastructure Transformation Hub</li>
+                  <li><strong>Hong Kong:</strong> Financial Services Trading Infrastructure</li>
+                  <li><strong>Japan:</strong> SoftBank Collaborative Projects</li>
+                </ul>
+                
+                <div class="region-metrics">
+                  <div class="region-metric">
+                    <div class="region-metric-value">12MW</div>
+                    <div class="region-metric-label">Total Data Center Capacity</div>
+                  </div>
+                  <div class="region-metric">
+                    <div class="region-metric-value">€1.7B</div>
+                    <div class="region-metric-label">Project Value</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Europe Map -->
+            <div class="region-map" id="europe-map">
+              <img src="/api/placeholder/800/500" alt="Europe Region Map" class="region-map-image">
+              
+              <div class="region-details">
+                <h3>European Region Projects</h3>
+                <ul class="region-projects-list">
+                  <li><strong>Switzerland:</strong> Bank of Julius Baer Trading Infrastructure</li>
+                  <li><strong>UK:</strong> Square Kilometre Array Organization HQ Coordination</li>
+                  <li><strong>Multiple EU Nations:</strong> Inter-governmental Procurement Management</li>
+                </ul>
+                
+                <div class="region-metrics">
+                  <div class="region-metric">
+                    <div class="region-metric-value">8MW</div>
+                    <div class="region-metric-label">Total Data Center Capacity</div>
+                  </div>
+                  <div class="region-metric">
+                    <div class="region-metric-value">16</div>
+                    <div class="region-metric-label">Nations Coordinated</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Oceania Map -->
+            <div class="region-map" id="oceania-map">
+              <img src="/api/placeholder/800/500" alt="Oceania Region Map" class="region-map-image">
+              
+              <div class="region-details">
+                <h3>Oceania Region Projects</h3>
+                <ul class="region-projects-list">
+                  <li><strong>Australia:</strong> Square Kilometre Array 5MW Data Center, 18 Edge Computing Sites</li>
+                  <li><strong>New Zealand:</strong> Confidential Jet Propulsion Laboratory</li>
+                </ul>
+                
+                <div class="region-metrics">
+                  <div class="region-metric">
+                    <div class="region-metric-value">10MW</div>
+                    <div class="region-metric-label">Total Data Center Capacity</div>
+                  </div>
+                  <div class="region-metric">
+                    <div class="region-metric-value">612km</div>
+                    <div class="region-metric-label">Fiber Network</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-content">
+        <h2 class="contact-heading">Transform Your Infrastructure Vision Into Reality</h2>
+        <p class="contact-text">With nearly two decades of expertise building critical infrastructure for Fortune 100 clients, government organizations, and world-class scientific facilities, I bring unparalleled knowledge to your most complex technical challenges. My approach combines technical precision with strategic vision, ensuring your infrastructure investments deliver maximum business value. Whether you need data centers with exceptional PUE, mission-critical facilities in challenging environments, or infrastructure expertise for specialized scientific applications, I deliver results that exceed expectations.</p>
+        
+        <div class="contact-links">
+          <a href="mailto:graphicsdes@gmail.com" class="contact-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            graphicsdes@gmail.com
+          </a>
+          <a href="tel:+61448649002" class="contact-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            +61 448 649 002
+          </a>
+          <a href="https://linkedin.com/in/kaushik-bose-projects" class="contact-link" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+            LinkedIn Profile
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Scroll to intro section
+    function scrollToIntro() {
+      document.querySelector('.intro').scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Animation on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animate elements when they come into view
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      };
+      
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+      
+      // Observe journey items
+      document.querySelectorAll('.journey-item').forEach(item => {
+        observer.observe(item);
+      });
+      
+      // Observe metric cards
+      document.querySelectorAll('.metric-card').forEach(card => {
+        observer.observe(card);
+      });
+      
+      // Observe organization cards
+      document.querySelectorAll('.organization-card').forEach(card => {
+        observer.observe(card);
+      });
+      
+      // Region map tabs
+      const regionTabs = document.querySelectorAll('.region-tab');
+      const regionMaps = document.querySelectorAll('.region-map');
+      
+      regionTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class from all tabs
+          regionTabs.forEach(t => t.classList.remove('active'));
+          // Add active class to clicked tab
+          tab.classList.add('active');
+          
+          // Hide all maps
+          regionMaps.forEach(map => map.classList.remove('active'));
+          // Show selected map
+          const regionToShow = tab.getAttribute('data-region');
+          document.getElementById(`${regionToShow}-map`).classList.add('active');
+        });
+      });
+    });
+  </script>
+  
+  <style>
+    /* Additional styles for the new sections */
+    
+    /* Region Maps Section */
+    .map-details-section {
+      padding: 80px 0;
+      background-color: var(--light);
+    }
+    
+    .map-details-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .region-maps-tabs {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .region-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--light);
+    }
+    
+    .region-tab {
+      flex: 1;
+      padding: 15px;
+      text-align: center;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--primary);
+      transition: all 0.3s;
+    }
+    
+    .region-tab.active {
+      background-color: var(--accent);
+      color: white;
+    }
+    
+    .region-map-container {
+      position: relative;
+      min-height: 600px;
+    }
+    
+    .region-map {
+      display: none;
+      padding: 30px;
+    }
+    
+    .region-map.active {
+      display: block;
+    }
+    
+    .region-map-image {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .region-details h3 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+    
+    .region-projects-list {
+      list-style-type: none;
+      margin-bottom: 30px;
+    }
+    
+    .region-projects-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--light);
+      font-size: 16px;
+    }
+    
+    .region-metrics {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .region-metric {
+      flex: 1;
+      background-color: var(--light-accent);
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .region-metric-value {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    
+    .region-metric-label {
+      font-size: 14px;
+      color: var(--primary);
+    }
+    
+    @media (max-width: 767px) {
+      .region-tabs {
+        flex-direction: column;
+      }
+      
+      .region-metrics {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</body>
+</html>
