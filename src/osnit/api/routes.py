@@ -2,17 +2,21 @@ from fastapi import APIRouter
 
 from osnit.core.models import (
     DNSRequest,
+    IndiaFootprintSnapshot,
+    IndiaFootprintSource,
     IPLookupRequest,
     IntelligenceRecord,
     PortScanRequest,
     PortScanResult,
     WhoisRequest,
 )
+from osnit.services.india_footprint import IndiaFootprintRepository
 from osnit.services.local_provider import LocalProvider
 from osnit.services.portscan import scan_ports
 
 router = APIRouter()
 provider = LocalProvider()
+india_repository = IndiaFootprintRepository()
 
 
 @router.get("/health")
@@ -42,3 +46,21 @@ async def lookup_whois(payload: WhoisRequest) -> IntelligenceRecord:
 async def port_scan(payload: PortScanRequest) -> PortScanResult:
     open_ports, closed_ports = await scan_ports(payload.host, payload.ports, payload.timeout)
     return PortScanResult(host=payload.host, open_ports=open_ports, closed_ports=closed_ports)
+
+
+@router.get("/india/sources", response_model=list[IndiaFootprintSource])
+async def list_india_sources() -> list[IndiaFootprintSource]:
+    return india_repository.sources()
+
+
+@router.post("/india/snapshot/refresh", response_model=IndiaFootprintSnapshot)
+async def refresh_india_snapshot() -> IndiaFootprintSnapshot:
+    return await india_repository.refresh_snapshot()
+
+
+@router.get("/india/snapshot/latest", response_model=IndiaFootprintSnapshot)
+async def get_latest_india_snapshot() -> IndiaFootprintSnapshot:
+    snapshot = india_repository.latest_snapshot()
+    if snapshot is None:
+        return await india_repository.refresh_snapshot()
+    return snapshot
