@@ -7,6 +7,7 @@ from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 import httpx
 
 from osnit.core.models import IndiaFootprintSnapshot, IndiaFootprintSource, IndiaFootprintSourceResult
@@ -154,8 +155,16 @@ class IndiaFootprintRepository:
     def _persist(self, snapshot: IndiaFootprintSnapshot) -> None:
         payload = json.dumps(snapshot.model_dump(mode="json"), indent=2)
         self.latest_path.write_text(payload, encoding="utf-8")
-        history_file = self.history_path / f"{snapshot.generated_at.strftime('%Y%m%dT%H%M%SZ')}.json"
-        history_file.write_text(payload, encoding="utf-8")
+        # Exclusive creation preserves history even when writers share a timestamp.
+        with NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=self.history_path,
+            prefix=f"{snapshot.generated_at.strftime('%Y%m%dT%H%M%SZ')}_",
+            suffix=".json",
+            delete=False,
+        ) as history_file:
+            history_file.write(payload)
 
     def latest_snapshot(self) -> IndiaFootprintSnapshot | None:
         if not self.latest_path.exists():
@@ -193,5 +202,5 @@ class IndiaFootprintScheduler:
             await self.repository.refresh_snapshot()
             try:
                 await asyncio.wait_for(self._stop_event.wait(), timeout=self.interval_seconds)
-            except TimeoutError:
+            except asyncio.TimeoutError:
                 continue
