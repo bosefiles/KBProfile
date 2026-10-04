@@ -10,6 +10,8 @@ OSNIT is a Python-based OSINT application scaffold designed to evolve into a lar
 - Async TCP port scanning
 - FastAPI REST API with typed schemas
 - Provider abstraction for future integration with external APIs (e.g., HackerTarget API)
+- India open digital footprint repository (categorized pan-India source catalog)
+- Auto-refresh scheduler every 30 minutes with local snapshot persistence
 
 ## Quickstart
 
@@ -32,7 +34,19 @@ curl -X POST http://127.0.0.1:8000/api/v1/lookup/ip \
 curl -X POST http://127.0.0.1:8000/api/v1/scan/ports \
   -H 'Content-Type: application/json' \
   -d '{"host":"scanme.nmap.org","ports":[22,80,443]}'
+
+curl http://127.0.0.1:8000/api/v1/india/sources
+
+curl -X POST http://127.0.0.1:8000/api/v1/india/snapshot/refresh
+
+curl http://127.0.0.1:8000/api/v1/india/snapshot/latest
 ```
+
+## India open footprint repository behavior
+
+- The server starts a background scheduler that refreshes India-focused open-source footprint data every **30 minutes**.
+- Snapshots are stored in `data/india_open_footprints/latest.json` and timestamped history files in `data/india_open_footprints/history/`.
+- Sources are categorized (e.g., governance, environment, economy, geospatial, cybersecurity, mobility, hazard) for easier study.
 
 ## Architecture direction for "next Palantir Gotham" style evolution
 

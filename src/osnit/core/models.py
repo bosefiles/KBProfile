@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
@@ -33,3 +34,33 @@ class IntelligenceRecord(BaseModel):
     data: Dict[str, object]
     provider: str
     note: Optional[str] = None
+
+
+class IndiaFootprintSource(BaseModel):
+    source_id: str
+    name: str
+    category: str
+    url: str
+    description: str
+    format_hint: str
+
+
+class IndiaFootprintSourceResult(BaseModel):
+    source_id: str
+    category: str
+    fetched_at: datetime
+    status_code: int
+    content_type: str
+    content_sha256: str
+    size_bytes: int
+    sample: str
+    error: Optional[str] = None
+
+
+class IndiaFootprintSnapshot(BaseModel):
+    generated_at: datetime
+    country: str = "india"
+    interval_minutes: int = 30
+    total_sources: int
+    category_counts: Dict[str, int]
+    sources: List[IndiaFootprintSourceResult]
